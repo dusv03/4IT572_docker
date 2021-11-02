@@ -26,8 +26,8 @@ jobs:
           key: node_modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: node_modules-
 
-        - name: Install with npm
-          run: npm ci
+      - name: Install with npm
+        run: npm ci
 
   Build:
     needs: Install
