@@ -30,6 +30,7 @@ jobs:
         run: npm ci
 
   Build:
+    # prerekvizity
     needs: Install
     runs-on: ubuntu-latest
 
@@ -39,6 +40,7 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW }}
 
+      # vytvoření nodu
       - name: Setup Node
         uses: actions/setup-node@v2.4.1
         with:
@@ -54,6 +56,17 @@ jobs:
         run: |
           npm rebuild node-sass --force
           npm run build -- --colors
+
+      - name: Cache node modules and build folder
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/ .npm
+            ./node_modules
+            ./build
+          key: ${{ runner.os }}-build-${{ github.run-id }}
+          restore-keys: ${{ runner.os }}-build-${{ github.run-id }}
 
   Test:
     needs: Install
@@ -80,4 +93,25 @@ jobs:
         run: |
           npm run test -- --colors
 
+  Deploy:
+    needs: [Build, Test]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master' }}
 
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          token: ${{ secrets.WORKFLOW }}
+
+      - name: Cache node modules and build folder
+        uses: actions/cache@v2
+        with:
+           path: |
+             ~/.npm
+             ./node_modules
+             ./build
+           key: ${{ runner.os }}-build-${{ github.run-id }}
+
+      - name: Deploy to firebase
+        run: ./node_modules/.bin/firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
