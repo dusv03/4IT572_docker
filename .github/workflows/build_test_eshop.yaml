@@ -62,7 +62,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/ .npm
+            ~/.npm
             ./node_modules
             ./build
           key: ${{ runner.os }}-build-${{ github.run-id }}
@@ -104,7 +104,7 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW }}
 
-      - name: Cache node modules and build folder
+      - name: load
         uses: actions/cache@v2
         with:
            path: |
