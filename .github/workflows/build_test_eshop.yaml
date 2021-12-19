@@ -110,16 +110,15 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW }}
 
+     # Reference https://github.com/actions/setup-python
       - name: Install/Setup python
-      # Reference https://github.com/actions/setup-python
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: 3.8
 
       # Install ansible
       - name: Set enviroment
-        run:
-          pip3 install boto boto3 ansible==4
+        run: pip3 install boto boto3 ansible==4
 
       - name: Create Pem file
         run: |
