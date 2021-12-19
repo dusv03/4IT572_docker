@@ -122,8 +122,8 @@ jobs:
 
       - name: Create Pem file
         run: |
-          echo "${{secrets.CERTIFICATE}}" > devops.pem
-          chmod 400 ./devops.pem
+          echo "${{secrets.CERTIFICATE}}" > ./ansible/devops.pem
+          chmod 400 ./ansible/devops.pem
 
       - name: Deploy ec2 instance
         env:
@@ -131,5 +131,5 @@ jobs:
           SECRET_KEY: ${{secrets.SECRET_KEY}}
           SESSION_KEY: ${{secrets.SESSION_KEY}}
           ANSIBLE_HOST_KEY_CHECKING: False
-        run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./devops.pem
+        run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./ansible/devops.pem
 
