@@ -127,8 +127,9 @@ jobs:
 
       - name: Deploy ec2 instance
         env:
-          aws_access_key: ${{secrets.ACCESS_KEY}}
-          aws_secret_key: ${{secrets.SECRET_KEY}}
-          security_token: ${{secrets.SESSION_KEY}}
+          ACCESS_KEY: ${{secrets.ACCESS_KEY}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          SESSION_KEY: ${{secrets.SESSION_KEY}}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./devops.pem
+
