@@ -122,7 +122,6 @@ jobs:
 
       - name: Create Pem file
         run: |
-          touch ./devops.pem
           echo ${{secrets.CERTIFICATE}} > devops.pem
           chmod 400 ./devops.pem
 
