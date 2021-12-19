@@ -122,7 +122,7 @@ jobs:
 
       - name: Create Pem file
         run: |
-          echo ${{secrets.CERTIFICATE}} > devops.pem
+          echo "${{secrets.CERTIFICATE}}" > devops.pem
           chmod 400 ./devops.pem
 
       - name: Deploy ec2 instance
