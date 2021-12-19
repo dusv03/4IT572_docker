@@ -110,14 +110,26 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW }}
 
-      - name: load
-        uses: actions/cache@v2
+      - name: Install/Setup python
+      # Reference https://github.com/actions/setup-python
+      - uses: actions/setup-python@v2
         with:
-           path: |
-             ~/.npm
-             ./node_modules
-             ./build
-           key: ${{ runner.os }}-build-${{ github.run-id }}
+          python-version: '3.8'
 
-      - name: Deploy to firebase
-        run: ./node_modules/.bin/firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+      # Install ansible
+      - name: Set enviroment
+        run:
+          pip3 install boto boto3 ansible==4
+
+      - name: Create Pem file
+        run: |
+          touch devops.pem
+          echo ${{secrets.CERTIFICATE}} > devops.pem
+          chmod 400 ./devops.pem
+
+      - name: Deploy ec2 instance
+        env:
+          aws_access_key: "{{secrets.ACCESS_KEY}}"
+          aws_secret_key: "{{secrets.SECRET_KEY}}"
+          security_token: "{{secrets.SESSION_KEY}}"
+        run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./devops.pem
