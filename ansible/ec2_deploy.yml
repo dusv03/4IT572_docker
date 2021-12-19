@@ -9,14 +9,14 @@
         image: ami-04902260ca3d33422
         region: us-east-1
         key_name: devops
-        vpc_subnet_id: subnet-08ad9789bcdaae1f0
+        vpc_subnet_id: subnet-07ac664d4d3d4a8f4
         assign_public_ip: yes
         count: 1
         group: eshop
         wait: true
-        aws_access_key: "{{access_key}}"
-        aws_secret_key: "{{secret_key}}"
-        security_token: "{{session_token}}"
+        aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
+        aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
+        security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
       register: ec2
 
     - name: Add instance host to group
@@ -73,3 +73,12 @@
       become: yes
     - wait_for:
         port: 80
+
+#Instance temination exmaple
+#- name: Terminate instances
+#  hosts: localhost
+#  tasks:
+#    - name: Terminate previous instances
+#      amazon.aws.ec2:
+#        state: 'absent'
+#        instance_ids: '{{ ec2.instance_ids }}'
