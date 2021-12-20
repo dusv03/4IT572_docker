@@ -125,6 +125,7 @@ jobs:
           echo "${{secrets.CERTIFICATE}}" > ./ansible/devops.pem
           chmod 400 ./ansible/devops.pem
 
+      #update
       - name: Deploy ec2 instance
         env:
           ACCESS_KEY: ${{secrets.ACCESS_KEY}}
