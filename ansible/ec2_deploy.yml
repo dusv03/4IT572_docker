@@ -20,7 +20,7 @@
         vpc_subnet_id: subnet-07184cb2e925c21db
         assign_public_ip: yes
         count: 1
-        group: eshop
+        group: eshop2
         wait: true
         aws_access_key: ASIA6JPVYSJG52SBD7GH
         aws_secret_key: OhnhJgNjTGp4KndjCCkdqzw1Yd8BxVffGTT6KHwR
