@@ -120,10 +120,10 @@ jobs:
       - name: Set enviroment
         run: pip3 install boto boto3 ansible==4
 
-      #- name: Create Pem file
-      #  run: |
-      #    echo "${{ secrets.CERTIFICATE }}" > ./ansible/devops.pem
-      #    chmod 400 ./ansible/devops.pem
+      - name: Create Pem file
+        run: |
+          echo "${{ secrets.CERTIFICATE }}" > ./ansible/devops.pem
+          chmod 400 ./ansible/devops.pem
 
       #updated deploy v2
       - name: Deploy ec2 instance
@@ -132,7 +132,5 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           SESSION_TOKEN: ${{ secrets.SESSION_TOKEN }}
           ANSIBLE_HOST_KEY_CHECKING: False
-        run: |
-          chmod 400 ./ansible/devops.pem
-          ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./ansible/devops.pem
+        run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./ansible/devops.pem
 
