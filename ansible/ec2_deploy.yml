@@ -17,14 +17,14 @@
         image: ami-04902260ca3d33422
         region: us-east-1
         key_name: devops
-        vpc_subnet_id: subnet-07184cb2e925c21db
+        vpc_subnet_id: subnet-0636eb0120751356c
         assign_public_ip: yes
         count: 1
-        group: eshop2
+        group: eshop
         wait: true
-        aws_access_key: ASIA6JPVYSJG52SBD7GH
-        aws_secret_key: OhnhJgNjTGp4KndjCCkdqzw1Yd8BxVffGTT6KHwR
-        security_token: FwoGZXIvYXdzEBwaDKWnDFdlE1pQV6MW4CK3AZrTzPwNpLyHscxTwqL/rH6iwLq90V9NpWMxqbT24MBxa9NSVkNvkP0q8osa4FGH3R4XE/RJGUYC5CCFK6/lNs83NInHm1/6Ly8OoGLRyglxs5o5SadLe4RWMXVveIxDzIUfpYtQxAAePp/AoovEHBE6Ztgd06KbotnlflQ95et6IH4GaTWqRzTxVvxFS417FpOoocC3HmgYXusglMReTsHFusEoq6HeNJ1KlalDWpFDRx5YxI3XWCjgkoOOBjItUp2X85jgpkLVjjuMC+KZV5fBRuguuBo7zxZzXKQVo3GVM3aFq4bXCQRsAiZm
+        aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
+        aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
+        security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
       register: ec2
 
     - name: Add instance host to group

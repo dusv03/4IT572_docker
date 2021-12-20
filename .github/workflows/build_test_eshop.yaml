@@ -130,7 +130,7 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          SESSION_KEY: ${{ secrets.SESSION_KEY }}
+          SESSION_TOKEN: ${{ secrets.SESSION_TOKEN }}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           chmod 400 ./ansible/devops.pem
