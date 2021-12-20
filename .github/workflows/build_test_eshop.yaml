@@ -120,20 +120,19 @@ jobs:
       - name: Set enviroment
         run: pip3 install boto boto3 ansible==4
 
-      - name: Create Pem file
-        run: |
-          echo "${{ secrets.CERTIFICATE }}" > ./ansible/devops.pem
-          chmod 400 ./ansible/devops.pem
+      #- name: Create Pem file
+      #  run: |
+      #    echo "${{ secrets.CERTIFICATE }}" > ./ansible/devops.pem
+      #    chmod 400 ./ansible/devops.pem
 
       #updated deploy
       - name: Deploy ec2 instance
         env:
-          #ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-          #SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          #SESSION_KEY: ${{ secrets.SESSION_KEY }}
-          ACCESS_KEY: ASIA6JPVYSJG52SBD7GH
-          SECRET_KEY: OhnhJgNjTGp4KndjCCkdqzw1Yd8BxVffGTT6KHwR
-          SESSION_KEY: FwoGZXIvYXdzEBwaDKWnDFdlE1pQV6MW4CK3AZrTzPwNpLyHscxTwqL/rH6iwLq90V9NpWMxqbT24MBxa9NSVkNvkP0q8osa4FGH3R4XE/RJGUYC5CCFK6/lNs83NInHm1/6Ly8OoGLRyglxs5o5SadLe4RWMXVveIxDzIUfpYtQxAAePp/AoovEHBE6Ztgd06KbotnlflQ95et6IH4GaTWqRzTxVvxFS417FpOoocC3HmgYXusglMReTsHFusEoq6HeNJ1KlalDWpFDRx5YxI3XWCjgkoOOBjItUp2X85jgpkLVjjuMC+KZV5fBRuguuBo7zxZzXKQVo3GVM3aFq4bXCQRsAiZm
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SESSION_KEY: ${{ secrets.SESSION_KEY }}
           ANSIBLE_HOST_KEY_CHECKING: False
-        run: ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./ansible/devops.pem
+        run: |
+          chmod 400 ./ansible/devops.pem
+          ansible-playbook ./ansible/ec2_deploy.yml --user ec2-user --key-file ./ansible/devops.pem
 
