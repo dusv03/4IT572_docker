@@ -9,7 +9,7 @@
         aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
         aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
         security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
-      register: instances
+      register: ec2_instances
 
     - name: Launch EC2 instance
       amazon.aws.ec2:
@@ -94,4 +94,6 @@
         aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
         aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
         security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
-        instance_ids: '{{ instances.instance_ids }}'
+        instance_ids: '{{ item.instance_id }}'
+        wait: yes
+      with_items: "{{ec2_instances.instances}}"
