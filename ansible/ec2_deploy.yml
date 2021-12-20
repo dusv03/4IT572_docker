@@ -3,14 +3,14 @@
   connection: local
 
   tasks:
-  #  - name: Identify old instances for termination
-  #    ec2_instance_info:
-  #      region: us-east-1
-  #      aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
-  #      aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
-  #      security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
-  #    register: ec2_stat
-#
+    - name: List current instances
+      ec2_instance_info:
+        region: us-east-1
+        aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
+        aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
+        security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
+      register: instances
+
     - name: Launch EC2 instance
       amazon.aws.ec2:
         instance_type: t2.small
@@ -82,11 +82,16 @@
     - wait_for:
         port: 80
 
-#Instance temination exmaple
-#- name: Terminate instances
-#  hosts: localhost
-#  tasks:
-#    - name: Terminate previous instances
-#      amazon.aws.ec2:
-#        state: 'absent'
-#        instance_ids: '{{ ec2.instance_ids }}'
+#Instance temination 
+- name: Terminate old instances
+  hosts: localhost
+  
+  tasks:
+    - name: Terminate previous instances
+      amazon.aws.ec2:
+        region: us-east-1
+        state: 'absent'
+        aws_access_key: "{{ lookup('env', 'ACCESS_KEY') }}"
+        aws_secret_key: "{{ lookup('env', 'SECRET_KEY') }}"
+        security_token: "{{ lookup('env', 'SESSION_TOKEN') }}"
+        instance_ids: '{{ instances.instance_ids }}'
